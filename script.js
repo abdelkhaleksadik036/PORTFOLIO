@@ -79,3 +79,26 @@ document.addEventListener('DOMContentLoaded', () => {
     revealEls.forEach((el) => el.classList.add('in'));
   }
 });
+const menu = document.querySelector(".menu-toggle");
+const nav = document.querySelector(".nav-links");
+
+menu.addEventListener("click", () => {
+    nav.classList.toggle("active");
+});
+const themeToggle = document.getElementById('themeToggle');
+const root = document.documentElement;
+
+// Charge la préférence sauvegardée (ou celle du système par défaut)
+const saved = localStorage.getItem('theme');
+if (saved) {
+  root.setAttribute('data-theme', saved);
+} else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+  root.setAttribute('data-theme', 'light');
+}
+
+themeToggle.addEventListener('click', () => {
+  const current = root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+  const next = current === 'light' ? 'dark' : 'light';
+  root.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+});
