@@ -85,6 +85,55 @@ document.addEventListener('DOMContentLoaded', () => {
     sections.forEach((s) => spy.observe(s));
   }
 
+  /* ---- Project image "escape" + 3D tilt on hover ---- */
+  const supportsHover = window.matchMedia('(hover: hover)').matches;
+  if (supportsHover) {
+    const MAX_TILT = 11;      // degrees
+    const MAX_SHIFT = 16;     // px, horizontal/vertical drift toward cursor
+    const LIFT = 26;          // px, upward "escape" lift
+    const SCALE_UP = 1.42;    // how much the image grows
+
+    document.querySelectorAll('.project-thumb').forEach((thumb) => {
+      const img = thumb.querySelector('.project-thumb-img');
+      if (!img) return; // icon-only thumbs are untouched
+
+      const card = thumb.closest('.project-card');
+      let rect = null;
+
+      const onEnter = () => {
+        rect = thumb.getBoundingClientRect();
+        card.classList.add('is-elevated');
+        img.classList.add('is-active');
+        img.style.transition = 'transform 0.12s ease-out, box-shadow 0.4s ease, border-radius 0.4s ease';
+      };
+
+      const onMove = (e) => {
+        if (!rect) rect = thumb.getBoundingClientRect();
+        const px = (e.clientX - rect.left) / rect.width;
+        const py = (e.clientY - rect.top) / rect.height;
+        const rotateY = (px - 0.5) * 2 * MAX_TILT;
+        const rotateX = -(py - 0.5) * 2 * MAX_TILT;
+        const moveX = (px - 0.5) * 2 * MAX_SHIFT;
+        const moveY = (py - 0.5) * 2 * MAX_SHIFT - LIFT;
+        img.style.transform =
+          `perspective(900px) translate3d(${moveX}px, ${moveY}px, 0) ` +
+          `scale(${SCALE_UP}) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      };
+
+      const onLeave = () => {
+        img.style.transition = 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-radius 0.4s ease';
+        img.style.transform = 'none';
+        img.classList.remove('is-active');
+        card.classList.remove('is-elevated');
+        rect = null;
+      };
+
+      thumb.addEventListener('mouseenter', onEnter);
+      thumb.addEventListener('mousemove', onMove);
+      thumb.addEventListener('mouseleave', onLeave);
+    });
+  }
+
   /* ---- Reveal on scroll ---- */
   const revealEls = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window && revealEls.length) {

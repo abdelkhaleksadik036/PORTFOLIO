@@ -600,9 +600,16 @@ header, section, footer { position: relative; z-index: 1; }
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: border-color 0.25s ease, transform 0.25s ease;
+  position: relative;
+  z-index: 1;
+  transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.3s ease;
 }
 .project-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+.project-card.is-elevated {
+  z-index: 60;
+  overflow: visible;
+  box-shadow: 0 26px 60px var(--shadow);
+}
 
 .project-thumb {
   height: 140px;
@@ -610,9 +617,27 @@ header, section, footer { position: relative; z-index: 1; }
   place-items: center;
   font-size: 2.2rem;
   color: var(--accent);
-  background:
-    linear-gradient(135deg, var(--bg-deep), var(--bg-alt));
+  background: linear-gradient(135deg, var(--bg-deep), var(--bg-alt));
   border-bottom: 1px solid var(--line);
+  position: relative;
+  overflow: visible;
+}
+
+.project-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 0;
+  cursor: pointer;
+  will-change: transform;
+  transform-origin: center;
+  transform: none;
+  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-radius 0.4s ease;
+}
+.project-thumb-img.is-active {
+  border-radius: var(--radius-m);
+  box-shadow: 0 30px 70px var(--shadow);
 }
 
 .project-body { padding: 24px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
