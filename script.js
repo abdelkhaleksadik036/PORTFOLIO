@@ -1,104 +1,106 @@
-// =====================================================================
-// Abdelkhalek Sadik — Portfolio — script.js
-// =====================================================================
+// ============================================================
+// ABDELKHALEK SADIK — PORTFOLIO — script.js
+// ============================================================
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Année automatique dans le footer
+
+  /* ---- Year in footer ---- */
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  // Bouton retour en haut
+  /* ---- Navbar: solid background on scroll ---- */
+  const navbar = document.getElementById('navbar');
+  const onScroll = () => {
+    if (!navbar) return;
+    navbar.classList.toggle('is-scrolled', window.scrollY > 12);
+
+    const backToTop = document.getElementById('backToTop');
+    if (backToTop) backToTop.classList.toggle('is-visible', window.scrollY > 480);
+  };
+  window.addEventListener('scroll', onScroll);
+  onScroll();
+
+  /* ---- Theme toggle (dark olive <-> light parchment) ---- */
+  const themeToggle = document.getElementById('themeToggle');
+  const applyTheme = (theme) => {
+    if (theme === 'light') {
+      document.documentElement.setAttribute('data-theme', 'light');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+    }
+  };
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme) applyTheme(savedTheme);
+
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+      const next = isLight ? 'dark' : 'light';
+      applyTheme(next);
+      localStorage.setItem('theme', next);
+    });
+  }
+
+  /* ---- Mobile menu toggle ---- */
+  const menuToggle = document.getElementById('menuToggle');
+  const navLinks = document.getElementById('navLinks');
+  if (menuToggle && navLinks) {
+    menuToggle.addEventListener('click', () => {
+      menuToggle.classList.toggle('is-open');
+      navLinks.classList.toggle('is-open');
+    });
+    // close menu when a link is clicked (mobile)
+    navLinks.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        menuToggle.classList.remove('is-open');
+        navLinks.classList.remove('is-open');
+      });
+    });
+  }
+
+  /* ---- Back to top ---- */
   const backToTop = document.getElementById('backToTop');
   if (backToTop) {
-    window.addEventListener('scroll', () => {
-      backToTop.classList.toggle('visible', window.scrollY > 500);
-    });
     backToTop.addEventListener('click', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
 
-  // Lien de navigation actif selon la section visible
+  /* ---- Scrollspy: active nav link follows the visible section ---- */
   const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.nav-link');
-  window.addEventListener('scroll', () => {
-    let current = '';
-    sections.forEach((s) => {
-      if (window.scrollY >= s.offsetTop - 120) current = s.id;
-    });
-    navLinks.forEach((l) => {
-      l.classList.toggle('active', l.getAttribute('href') === '#' + current);
-    });
-  });
+  const navLinkEls = document.querySelectorAll('.nav-link');
 
-  // Menu mobile
-  const menuToggle = document.getElementById('menuToggle');
-  const navLinksContainer = document.getElementById('navLinks');
-  if (menuToggle && navLinksContainer) {
-    menuToggle.addEventListener('click', () => {
-      const isOpen = navLinksContainer.style.display === 'flex';
-      navLinksContainer.style.display = isOpen ? 'none' : 'flex';
-    });
-    // Ferme le menu mobile après un clic sur un lien
-    navLinksContainer.querySelectorAll('a').forEach((link) => {
-      link.addEventListener('click', () => {
-        if (window.innerWidth <= 900) navLinksContainer.style.display = 'none';
+  if ('IntersectionObserver' in window && sections.length && navLinkEls.length) {
+    const spy = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const id = entry.target.getAttribute('id');
+        navLinkEls.forEach((link) => {
+          const match = link.getAttribute('data-section') === id;
+          link.classList.toggle('active', match);
+        });
       });
-    });
+    }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+
+    sections.forEach((s) => spy.observe(s));
   }
 
-  // Formulaire de contact (démo front-end uniquement — aucun envoi réel)
-  const form = document.getElementById('contactForm');
-  const status = document.getElementById('formStatus');
-  if (form && status) {
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      status.textContent = 'Message envoyé ! Je te réponds vite.';
-      status.style.color = 'var(--ok)';
-      form.reset();
-      setTimeout(() => { status.textContent = ''; }, 4000);
-    });
-  }
-
-  // Apparition douce des sections au scroll
+  /* ---- Reveal on scroll ---- */
   const revealEls = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window && revealEls.length) {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('in');
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.15 }
-    );
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
     revealEls.forEach((el) => observer.observe(el));
   } else {
-    revealEls.forEach((el) => el.classList.add('in'));
+    // fallback: no IntersectionObserver support
+    revealEls.forEach((el) => el.classList.add('is-visible'));
   }
-});
-const menu = document.querySelector(".menu-toggle");
-const nav = document.querySelector(".nav-links");
 
-menu.addEventListener("click", () => {
-    nav.classList.toggle("active");
-});
-const themeToggle = document.getElementById('themeToggle');
-const root = document.documentElement;
-
-// Charge la préférence sauvegardée (ou celle du système par défaut)
-const saved = localStorage.getItem('theme');
-if (saved) {
-  root.setAttribute('data-theme', saved);
-} else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
-  root.setAttribute('data-theme', 'light');
-}
-
-themeToggle.addEventListener('click', () => {
-  const current = root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
-  const next = current === 'light' ? 'dark' : 'light';
-  root.setAttribute('data-theme', next);
-  localStorage.setItem('theme', next);
 });
