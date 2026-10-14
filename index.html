@@ -23,6 +23,34 @@
 </head>
 <body>
 
+  <!-- INTRO -->
+  <section class="intro-screen" id="introScreen" aria-labelledby="introTitle">
+    <div class="intro-orbit intro-orbit-one" aria-hidden="true"></div>
+    <div class="intro-orbit intro-orbit-two" aria-hidden="true"></div>
+    <div class="intro-content">
+      <div class="intro-copy">
+      <span class="intro-kicker"><span class="intro-status"></span> PORTFOLIO PERSONNEL · SAFI, MAROC</span>
+      <p class="intro-hello">Bonjour, je suis</p>
+      <h1 id="introTitle">Abdelkhalek <span>Sadik</span></h1>
+      <p class="intro-description">Étudiant à l’EST Safi, développeur web et passionné par l’automatisation et l’intelligence artificielle. J’aime transformer des idées en projets concrets.</p>
+      <button class="intro-start" id="introStart" type="button">
+        <span>Commencer la visite</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-7-7 7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <span class="intro-hint">UNE PETITE VISITE DE MON UNIVERS</span>
+      </div>
+      <div class="intro-visual" aria-label="Portrait d'Abdelkhalek Sadik">
+        <div class="intro-photo-ring"></div>
+        <div class="intro-photo-card"><img src="portfolio3.png" alt="Portrait d'Abdelkhalek Sadik" /></div>
+        <div class="intro-float intro-float-top"><span class="intro-float-icon">&lt;/&gt;</span><span><strong>Développement</strong><small>Web &amp; applications</small></span></div>
+        <div class="intro-float intro-float-bottom"><span class="intro-float-icon">✦</span><span><strong>Curieux de nature</strong><small>IA · Automatisation · Réseaux</small></span></div>
+      </div>
+    </div>
+    <div class="intro-side-note" aria-hidden="true">CODE · CRÉATIVITÉ · CURIOSITÉ</div>
+  </section>
+
+  <div class="site-content is-locked" id="siteContent" aria-hidden="true" inert>
+
   <!-- NAVBAR -->
   <header class="navbar" id="navbar">
     <div class="container nav-container">
@@ -53,7 +81,7 @@
   </header>
 
   <!-- HERO -->
-  <section id="home" class="hero">
+  <section id="home" class="hero" tabindex="-1">
     <div class="container hero-container">
       <div class="hero-content">
         <div class="eyebrow-block">
@@ -71,32 +99,17 @@
         </p>
         <div class="hero-cta">
           <a href="#projects" class="btn btn-primary">Voir mes projets</a>
-          <a href="#contact" class="link-underline">
+          <a href="#contact" class="btn btn-primary">
             Me contacter
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
-            <a href="certificate/CV_Abdelkhalek_Sadik.pdf"  class="link-underline">
+            <a href="certificate/CV_Abdelkhalek_Sadik.pdf"  class="btn btn-primary">
             telecharger le cv
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>     
             </a>
         </div>
 
-        <div class="hero-stats">
-          <div>
-            <div class="stat-number">6</div>
-            <div class="stat-label">Projets</div>
-          </div>
-          <div class="stat-divider"></div>
-          <div>
-            <div class="stat-number">2</div>
-            <div class="stat-label">Années EST</div>
-          </div>
-          <div class="stat-divider"></div>
-          <div>
-            <div class="stat-number">CCNA</div>
-            <div class="stat-label">Certifié</div>
-          </div>
-        </div>
+ 
       </div>
       <div class="hero-visual">
         <div class="visual-card">
@@ -226,10 +239,12 @@
             <h3>Programmation</h3>
           </div>
           <div class="skill-list">
-            <div class="skill-item"><span>Python</span><span class="skill-level level-learning">En progression</span></div>
-            <div class="skill-item"><span>Java</span><span class="skill-level level-learning">En progression</span></div>
             <div class="skill-item"><span>Langage C</span><span class="skill-level level-good">Bon</span></div>
             <div class="skill-item"><span>JavaScript</span><span class="skill-level level-medium">Moyen</span></div>
+            <div class="skill-item"><span>Python</span><span class="skill-level level-learning">En progression</span></div>
+            <div class="skill-item"><span>Java</span><span class="skill-level level-learning">En progression</span></div>
+            
+            
           </div>
         </div>
         <div class="skill-cat">
@@ -431,8 +446,9 @@
         </article>
 <!-- nature-chaimaa -->
       <article class="project-card">
-        <div class="project-thumb"><i class="fas fa-leaf"></i></div>
-
+        <div class="project-thumb" ><i class="fas fa-leaf"></i><img src="naturechayma.png" alt="nature chaymaa" class="project-thumb-img"></div>
+      
+           
         <div class="project-body">
           <div class="project-tags">
             <span>html5</span><span>css3</span><span>javascript</span>
@@ -446,7 +462,7 @@
           </p>
 
           <div class="project-buttons">
-            <a href="https://www.linkedin.com/in/abd-elkhalek-sadik-b23182395/"
+            <a href="https://nature-chaimaa.vercel.app/"
               target="_blank"
               rel="noopener"
               class="btn-project">
@@ -549,6 +565,8 @@
   <button class="back-to-top" id="backToTop" aria-label="Haut de page">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
+
+  </div>
 
   <script src="script.js"></script>
 </body>
